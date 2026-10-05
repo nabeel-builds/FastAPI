@@ -22,3 +22,5 @@ def predictLoan(appliaction: LoanApplication):
         "applicationAge":appliaction.age,
         "decision":decision
     }
+
+
