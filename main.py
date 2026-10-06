@@ -1,19 +1,43 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
 
 app = FastAPI()
 
+class Tea(BaseModel):
+    id: int
+    name: str
+    origin: str
+
+teas: List[Tea] = []
+
 @app.get("/")
-def home():
-    return{"message":"My first API is working"}
-
-@app.get("/about")
-def about():
-    return{"Project": "loan risk model", "version": "1.0"}
-
-@app.get("/customers")
-def getCustomers(customer_id: int):
+def read_root():
     return{
-        "customerId": customer_id,
-        "name": "Ravi",
-        "status": "Active"
+        "message": "Welcome Brothers and Sisters"
     }
+
+@app.get("/taes")
+def get_teas():
+    return teas
+
+@app.post("/teas")
+def add_tea(tea: Tea):
+    teas.append(tea)
+    return tea
+
+@app.put("/teas/{tea_id}")
+def update_tea(tea_id: int, updated_tea: Tea):
+    for index, tea in enumerate(teas):
+        if tea_id == tea_id:
+            teas[index] = update_tea
+            return update_tea
+    return{"Error": "Tea not found"}
+
+@app.delete("/teas/{tea_id}")
+def delete_tea(tea_id: int):
+    for index, tea in enumerate(teas):
+        if tea_id == tea_id:
+            deleted = teas.pop(index)
+            return deleted
+    return {"Error": "Tea not Found"}
